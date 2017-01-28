@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {save, toggle} from 'redux/modules/commodityEditor';
 
 import { Modal, Upload, Icon, Button } from 'antd'
+import './uploadFile'
 
 @connect(
     state => ({editor: state.commodityEditor}),
