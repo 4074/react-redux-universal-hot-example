@@ -1,0 +1,22 @@
+
+.header {
+    height: 48px;
+
+    .logo {
+        width: 160px;
+        height: 100%;
+        float: left;
+        border-bottom: 1px solid #e9e9e9;
+
+        h3 {
+            display: block;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+        }
+    }
+
+    .menu {
+        margin-left: 160px;
+    }
+}

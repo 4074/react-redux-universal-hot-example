@@ -23,3 +23,8 @@ export function mapUrl(availableActions = {}, url = []) {
 
   return (typeof actionAndParams.action === 'function') ? actionAndParams : notFound;
 }
+
+
+export function getServerUrl(source = "") {
+    return 'http://localhost:5100/' + source
+}

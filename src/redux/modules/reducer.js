@@ -10,6 +10,9 @@ import {reducer as form} from 'redux-form';
 import info from './info';
 import widgets from './widgets';
 
+import commodity from './commodity'
+import commodityEditor from './commodityEditor'
+
 export default combineReducers({
   routing: routerReducer,
   reduxAsyncConnect,
@@ -22,5 +25,8 @@ export default combineReducers({
   }),
   info,
   pagination,
-  widgets
+  widgets,
+
+  commodity,
+  commodityEditor
 });
