@@ -6,7 +6,7 @@ const SAVE_FAIL = 'zhide/commodity/editor/SAVE_FAIL';
 
 const initialState = {
   visible: false,
-  title: "",
+  title: "添加商品",
   loading: false,
   
   id: null,
@@ -38,7 +38,6 @@ export default function commodity(state = initialState, action = {}) {
         visible: false
       };
     case SAVE_FAIL:
-      console.log(action)
       return {
         ...state,
         loading: false,
@@ -52,7 +51,7 @@ export default function commodity(state = initialState, action = {}) {
 export function save(params) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    promise: (client) => client.post('/saveCommodity', {
+    promise: (client) => client.post('/commodity/save', {
         data: params
     })
   };

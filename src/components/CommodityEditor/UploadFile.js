@@ -1,71 +1,83 @@
 import crypto from 'crypto'
 
 const config = {
-    secretid: 'QmFzZTY0IGlzIGEgZ2VuZXJp',
-    secretkey: 'AKIDZfbOA78asKUYBcXFrJD0a1ICvR98JM'
+    appid: '1251334503',
+    bucket: 'zhide',
+    secretid: 'AKIDWD0gGj5GF2e4J5vacS6nJe4MScicYq9N',
+    secretkey: 'DESZZO1UdkgV8Zt7nQs8C4kHsJrMgomh',
+    host: 'zhide-1251334503.cosgz.myqcloud.com'
 }
 
-function getAuthorization(time, method, uri, params, headers) {
+const request_url = 'http://gz.file.myqcloud.com/files/v2/' + config.appid + '/' + config.bucket + '/'
+
+function encryptOrigin(origin, key = config.secretkey) {
+    console.log(origin)
+    const hmac = crypto.createHmac('sha1', key)
+    hmac.update(origin)
+    const digest = hmac.digest('hex')
+    console.log(digest)
+    const buffer = new Buffer(digest + origin)
+    console.log(buffer)
+    return buffer.toString('base64')
+}
+
+function getAuthorization() {
     let result = []
     const name = [
-        'q-sign-algorithm',
-        'q-ak',
-        'q-sign-time',
-        'q-key-time',
-        'q-header-list',
-        'q-url-param-list',
-        'q-signature'
+        'a',
+        'b',
+        'k',
+        'e',
+        't',
+        'r',
+        'f'
     ]
 
-    const signature = getSignature(time, method, uri, params, headers)
-
-    let headerKeys = []
-    headers = headers.split('&')
-    
-    for (let h of headers) {
-        h = h.split('=')
-        if (h.length && h[0]) {
-            headerKeys.push(h[0])
-        }
-    }
+    const currentTime = parseInt(new Date().getTime() / 1000)
+    const expiredTime = currentTime + 7776000
 
     const value = [
-        'sha1',
+        config.appid,
+        config.bucket,
         config.secretid,
-        time,
-        time,
-        headerKeys.join(';'),
-        params,
-        signature
+        expiredTime,
+        currentTime,
+        1,
+        ""
     ]
 
     for (let i=0, len=name.length; i<len; i++) {
         result.push(name[i] + '=' + value[i])
     }
 
-    return result.join('&')
+    result = result.join('&')
 
-    function hmacSha1(s, key = config.secretkey) {
-        const hmac = crypto.createHmac('sha1', key)
-        hmac.update(s)
-        return hmac.digest('hex')
-    }
-
-    function getFormatString(method, uri, params, headers) {
-        const str = method + '\n' + uri + '\n' + params + '\n' + headers + '\n'
-        const sha1 = crypto.createHash('sha1')
-        sha1.update(str)
-        return sha1.digest('hex')
-    }
-
-    function getSignature(time, method, uri, params, headers) {
-        const key = hmacSha1(time)
-        const stringToSign = 'sha1\n' + time + '\n' + getFormatString(method, uri, params, headers) + '\n'
-        return hmacSha1(stringToSign, key)
-    }
+    return 'mYfJvtehIIGg1tzS2kH2HRJgu1ZhPTEyNTEzMzQ1MDMmaz1BS0lEV0QwZ0dqNUdGMmU0SjV2YWNTNm5KZTRNU2NpY1lxOU4mZT0xNDkzNzEwNTczJnQ9MTQ4NTkzNDU3MyZyPTE1NzUyMTE1MTImZj0mYj16aGlkZQ=='
+    // return encryptOrigin('a=200001&b=newbucket&k=AKIDUfLUEUigQiXqm7CVSspKJnuaiIKtxqAv&e=1437995704&t=1437995644&r=2081660421&f=', 'bLcPnl88WU30VY57ipRhSePfPdOfSruK')
 }
 
 function test() {
-    console.log(getAuthorization('1480932292;1481012292', 'get', '/testfile', '', 'host=testbucket-125000000.cn-north.myqcloud.com&range=bytes%3d0-3'))
+    console.log(getAuthorization())
 }
 test()
+listDir()
+function listDir() {
+    window.sign = getAuthorization()
+    let headers = new Headers()
+    headers.append('Authorization', getAuthorization())
+    const request = new Request('http://blog.parryqiu.com', {
+        method: 'GET',
+        mode: 'cors',
+        headers: headers
+    })
+    
+    fetch('http://blog.parryqiu.com', {
+        method: 'GET',
+        headers: {
+            'ff': 'd',
+            Method: 'get'
+        }
+    }).then(function(res) {
+        console.log(res)
+    })
+}

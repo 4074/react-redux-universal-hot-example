@@ -5,4 +5,4 @@ export logout from './logout';
 export * as widget from './widget/index';
 export * as survey from './survey/index';
 
-export loadCommodity from './loadCommodity'
+export * as commodity from './commodity/index'
